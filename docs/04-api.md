@@ -79,7 +79,6 @@ Supabase API
 
 - ACTIVE
 - COMPLETED
-- ARCHIVED
 
 ---
 
@@ -116,6 +115,7 @@ Supabase API
 | Pole | Typ | Opis |
 |--------|--------|--------|
 | id | UUID | Identyfikator materiału |
+| goalId | UUID | Powiązany cel edukacyjny |
 | taskId | UUID | Powiązane zadanie |
 | fileName | String | Nazwa pliku |
 | fileType | String | Typ pliku |
@@ -135,25 +135,32 @@ Supabase API
 
 ## User (Użytkownik)
 
+Konto użytkownika jest obsługiwane przez Supabase Auth. Dane profilu przechowywane są w tabeli `profiles`.
+
 | Pole | Typ | Opis |
 |--------|--------|--------|
-| id | UUID | Identyfikator użytkownika |
+| id | UUID | Identyfikator użytkownika zgodny z Supabase Auth |
 | email | String | Adres e-mail |
+| fullName | String | Imię i nazwisko użytkownika |
 | createdAt | DateTime | Data utworzenia konta |
+
+Hasła są obsługiwane przez Supabase Auth i nie są przechowywane w tabeli `profiles`.
 
 ---
 
 # Planowane zasoby REST API
+
+Supabase REST API korzysta z nazw tabel w bazie danych. Filtrowanie rekordów odbywa się za pomocą składni PostgREST.
 
 ## Goals
 
 | Metoda | Endpoint | Opis |
 |----------|----------|----------|
 | GET | /goals | Pobranie listy celów |
-| GET | /goals/{id} | Pobranie szczegółów celu |
+| GET | /goals?id=eq.<UUID> | Pobranie szczegółów celu |
 | POST | /goals | Utworzenie celu |
-| PATCH | /goals/{id} | Aktualizacja celu |
-| DELETE | /goals/{id} | Usunięcie celu |
+| PATCH | /goals?id=eq.<UUID> | Aktualizacja celu |
+| DELETE | /goals?id=eq.<UUID> | Usunięcie celu |
 
 ---
 
@@ -162,10 +169,10 @@ Supabase API
 | Metoda | Endpoint | Opis |
 |----------|----------|----------|
 | GET | /tasks | Pobranie listy zadań |
-| GET | /tasks/{id} | Pobranie szczegółów zadania |
+| GET | /tasks?id=eq.<UUID> | Pobranie szczegółów zadania |
 | POST | /tasks | Utworzenie zadania |
-| PATCH | /tasks/{id} | Aktualizacja zadania |
-| DELETE | /tasks/{id} | Usunięcie zadania |
+| PATCH | /tasks?id=eq.<UUID> | Aktualizacja zadania |
+| DELETE | /tasks?id=eq.<UUID> | Usunięcie zadania |
 
 ---
 
@@ -174,8 +181,10 @@ Supabase API
 | Metoda | Endpoint | Opis |
 |----------|----------|----------|
 | GET | /materials | Pobranie listy materiałów |
-| POST | /materials | Dodanie materiału |
-| DELETE | /materials/{id} | Usunięcie materiału |
+| POST | /materials | Dodanie metadanych materiału |
+| DELETE | /materials?id=eq.<UUID> | Usunięcie metadanych materiału |
+
+Pliki są przesyłane i usuwane osobno za pomocą Supabase Storage. Usunięcie materiału powinno obejmować zarówno plik w Storage, jak i jego metadane w tabeli `materials`.
 
 ---
 
@@ -183,8 +192,8 @@ Supabase API
 
 | Metoda | Endpoint | Opis |
 |----------|----------|----------|
-| GET | /profiles/{id} | Pobranie danych użytkownika |
-| PATCH | /profiles/{id} | Aktualizacja danych użytkownika |
+| GET | /profiles?id=eq.<UUID> | Pobranie danych użytkownika |
+| PATCH | /profiles?id=eq.<UUID> | Aktualizacja danych użytkownika |
 
 ---
 
@@ -195,25 +204,25 @@ Planowane jest wykorzystanie parametrów zapytań REST API do filtrowania danych
 Przykłady:
 
 ```http
-GET /tasks?status=TODO
+GET /tasks?status=eq.TODO
 ```
 
 Pobranie wszystkich niewykonanych zadań.
 
 ```http
-GET /tasks?priority=HIGH
+GET /tasks?priority=eq.HIGH
 ```
 
 Pobranie zadań o wysokim priorytecie.
 
 ```http
-GET /tasks?goalId={id}
+GET /tasks?goal_id=eq.<UUID>
 ```
 
 Pobranie zadań przypisanych do konkretnego celu edukacyjnego.
 
 ```http
-GET /goals?status=ACTIVE
+GET /goals?status=eq.ACTIVE
 ```
 
 Pobranie aktywnych celów.
@@ -236,7 +245,7 @@ Planowana funkcjonalność obejmuje:
 
 Po poprawnym zalogowaniu użytkownik otrzymuje token dostępu wykorzystywany podczas komunikacji z API.
 
-Dostęp do zasobów aplikacji będzie ograniczony wyłącznie do danych należących do aktualnie zalogowanego użytkownika.
+Dostęp do zasobów aplikacji będzie ograniczony wyłącznie do danych należących do aktualnie zalogowanego użytkownika. W tym celu zostaną skonfigurowane reguły Row Level Security (RLS) w bazie danych Supabase. Same zabezpieczenia po stronie Angulara nie są wystarczające do ochrony danych.
 
 ---
 
@@ -251,7 +260,7 @@ Rozwiązanie pozwala na:
 - usuwanie plików,
 - przypisywanie materiałów do wybranych celów edukacyjnych.
 
-Każdy użytkownik będzie miał dostęp wyłącznie do własnych materiałów.
+Każdy użytkownik będzie miał dostęp wyłącznie do własnych materiałów. Informacje o plikach, takie jak nazwa, typ i powiązany cel, będą przechowywane w tabeli `materials`, natomiast same pliki w Supabase Storage.
 
 ---
 

@@ -5,7 +5,7 @@
 ### Proces 1 - Rejestracja i konfiguracja konta
 
 1. Użytkownik zakłada konto.
-2. Użytkownik loguje się do aplikacji.
+2. Użytkownik rejestruje się do aplikacji.
 3. Użytkownik uzupełnia dane profilu.
 4. System tworzy przestrzeń użytkownika.
 5. Użytkownik otrzymuje dostęp do wszystkich funkcji aplikacji.
@@ -43,10 +43,10 @@
 
 ### Proces 4 - Zarządzanie materiałami edukacyjnymi
 
-1. Użytkownik wybiera zadanie.
-2. Dodaje materiały powiązane z nauką.
+1. Użytkownik wybiera cel edukacyjny, z którym chce powiązać materiał.
+2. Opcjonalnie przypisuje materiał do konkretnego zadania.
 3. System zapisuje pliki i metadane.
-4. Materiały są dostępne bezpośrednio z poziomu zadania lub z listy.
+4. Materiały są dostępne bezpośrednio z poziomu celu, zadania lub z listy.
 
 **Obsługiwane typy plików:**
 
@@ -55,6 +55,7 @@
 - PPTX
 - PNG
 - JPG
+- JPEG
 
 **Rezultat:** wszystkie materiały związane z nauką znajdują się w jednym miejscu.
 
@@ -111,6 +112,8 @@
 - Oznaczanie zadania jako wykonane.
 - Wyświetlanie historii wykonanych zadań.
 
+Statusy zadań: TODO (oczekujące), IN_PROGRESS (w trakcie), DONE (wykonane).
+
 ### Priorytety i klasyfikacja zadań
 
 Każde zadanie posiada jeden z poziomów ważności:
@@ -148,6 +151,8 @@ Każde zadanie posiada jeden z poziomów ważności:
 - Liczba zadań oczekujących.
 - Liczba zadań ukończonych.
 - Procent realizacji celów.
+- Liczba przechowywanych materiałów.
+- Sekcja nadchodzących terminów.
 - Wizualizacja danych przy pomocy wykresów.
 
 #### Integracja z API

@@ -4,10 +4,11 @@
 
 Aplikacja StudyFlow będzie tworzona z wykorzystaniem następujących technologii:
 
-- **Angular 22.2.2** – główny framework frontendowy, odpowiedzialny za budowę interfejsu użytkownika i obsługę logiki aplikacji.
-- **TypeScript 6.0.3** – język programowania wykorzystywany w projekcie Angular.
+- **Angular 22.2** – główny framework frontendowy, odpowiedzialny za budowę interfejsu użytkownika i obsługę logiki aplikacji.
+- **TypeScript 6.0.2** – język programowania wykorzystywany w projekcie Angular.
 - **HTML i SCSS** – technologie wykorzystywane do tworzenia struktury i wyglądu interfejsu.
 - **Supabase** – rozwiązanie backendowe zapewniające uwierzytelnianie użytkowników (Auth), relacyjną bazę danych PostgreSQL, przechowywanie plików (Storage) oraz REST API.
+- **Chart.js i ng2-charts** – biblioteki wykorzystywane do tworzenia wykresów i wizualizacji danych.
 
 ## 2. Architektura aplikacji
 
@@ -68,8 +69,8 @@ src/
 | Obsługa formularzy | Angular Reactive Forms | Ułatwia tworzenie formularzy i walidację danych wprowadzanych przez użytkownika. |
 | Zarządzanie stanem | Angular Signals | Umożliwia reaktywne przechowywanie i aktualizowanie danych wykorzystywanych przez komponenty. |
 | Komponenty interfejsu | Angular Material i Angular CDK | Dostarczają gotowe elementy interfejsu i narzędzia ułatwiające tworzenie komponentów. |
+| Wykresy i wizualizacja danych | Chart.js i ng2-charts | Umożliwiają tworzenie wykresów prezentujących dane aplikacji. |
 | Formatowanie kodu | Prettier | Zapewnia spójne formatowanie kodu w całym projekcie. |
-| Kontrola jakości kodu | ESLint | Pomaga wykrywać potencjalne błędy i nieprawidłowe wzorce w kodzie. |
 | Obsługa operacji asynchronicznych | RxJS | Umożliwia obsługę operacji asynchronicznych i strumieni danych. |
 
 ## 5. Zarządzanie stanem i komunikacja
